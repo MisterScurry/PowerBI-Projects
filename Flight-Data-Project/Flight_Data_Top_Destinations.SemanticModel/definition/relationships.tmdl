@@ -1,0 +1,37 @@
+relationship 2d4404fd-1f09-41d1-b77d-31bf4c6ce27c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'flight information'.'Take-off Time'
+	toColumn: LocalDateTable_807f3fcc-2d73-42a2-aba9-80ad991e4e46.Date
+
+relationship 4c600734-3a24-41b0-b1d1-08f145675f69
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'flight information'.'Landing Time'
+	toColumn: LocalDateTable_03b3c5c2-8752-4306-ab3c-3a5f101e01f8.Date
+
+relationship cf7e1409-a67c-44e8-8d27-c31ee91ca114
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'flight information'.'Estimated Flight Time'
+	toColumn: LocalDateTable_cac038fd-25e3-411e-9325-03d130fe5dd3.Date
+
+relationship b6652881-b484-4df3-bcaf-ba9ad3c9f77c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'skymile info - member info'.'Member Since'
+	toColumn: LocalDateTable_72c15906-b531-426a-b37a-809227e94491.Date
+
+relationship AutoDetected_4c80bb24-1b40-47aa-8a8b-d2ae781de804
+	fromColumn: 'passenger information'.'Flight Number'
+	toColumn: 'flight information'.'Flight Number'
+
+relationship 246f76bd-2ecf-dc8c-851f-c7e44ff764ff
+	fromColumn: 'passenger information'.'SkyMiles Number (Member ID)'
+	toColumn: 'skymile info - member info'.'SkyMiles Number (Member ID)'
+
+relationship c878b902-1400-4427-8921-2a2d03b58ac1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.Date
+	toColumn: LocalDateTable_c9e05219-e083-4ca2-9219-751c527b1168.Date
+
+relationship 939a43b2-cb45-35fe-2bca-3eaf6c070f92
+	fromColumn: 'flight information'.'Take-Off Date'
+	toColumn: Calendar.Date
+

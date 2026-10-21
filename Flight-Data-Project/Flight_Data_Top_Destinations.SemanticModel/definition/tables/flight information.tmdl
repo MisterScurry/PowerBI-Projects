@@ -1,0 +1,122 @@
+table 'flight information'
+	lineageTag: fe0858b9-3110-456a-99c3-fd1a739ee02f
+
+	column 'Flight Number'
+		dataType: string
+		lineageTag: b63f97f7-b885-4d4b-859b-56c10b8cf38c
+		summarizeBy: none
+		sourceColumn: Flight Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Destination
+		dataType: string
+		lineageTag: cb8dd30a-896e-4a78-8327-6d79a2f6130e
+		summarizeBy: none
+		sourceColumn: Destination
+
+		annotation SummarizationSetBy = Automatic
+
+	column Departure
+		dataType: string
+		lineageTag: b963f902-67b5-492e-ab31-df0afef1b482
+		summarizeBy: none
+		sourceColumn: Departure
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Take-off Time'
+		dataType: dateTime
+		formatString: mmmm yyyy
+		lineageTag: d8650ee1-dd9b-464b-bcc5-391d43feb3a8
+		summarizeBy: none
+		sourceColumn: Take-off Time
+
+		variation Variation
+			isDefault
+			relationship: 2d4404fd-1f09-41d1-b77d-31bf4c6ce27c
+			defaultHierarchy: LocalDateTable_807f3fcc-2d73-42a2-aba9-80ad991e4e46.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'Landing Time'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: dfbce47f-2968-429b-b59e-68b3c2994557
+		summarizeBy: none
+		sourceColumn: Landing Time
+
+		variation Variation
+			isDefault
+			relationship: 4c600734-3a24-41b0-b1d1-08f145675f69
+			defaultHierarchy: LocalDateTable_03b3c5c2-8752-4306-ab3c-3a5f101e01f8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Estimated Flight Time'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 766de752-a394-4203-9e66-f9c8cdcd2464
+		summarizeBy: none
+		sourceColumn: Estimated Flight Time
+
+		variation Variation
+			isDefault
+			relationship: cf7e1409-a67c-44e8-8d27-c31ee91ca114
+			defaultHierarchy: LocalDateTable_cac038fd-25e3-411e-9325-03d130fe5dd3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of Seats'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1deb5f7c-3339-418d-832b-8ac22f4d2505
+		summarizeBy: sum
+		sourceColumn: Number of Seats
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Number of Passengers'
+		dataType: int64
+		formatString: 0
+		lineageTag: 45dc2098-12ac-49f9-ba20-6cb3526fd687
+		summarizeBy: sum
+		sourceColumn: Number of Passengers
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Type of Plane'
+		dataType: string
+		lineageTag: 28d3b06e-aef7-4965-9bf4-d29cf3b72d4b
+		summarizeBy: none
+		sourceColumn: Type of Plane
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Take-Off Date'
+		dataType: string
+		lineageTag: a2656a99-2244-450f-a924-12cc1e524360
+		summarizeBy: none
+		sourceColumn: Take-Off Date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'flight information' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\bmscu\OneDrive\Desktop\PowerBI_Projects\Flight_Data\flight_dataset.xlsx"), null, true),
+				    #"flight information_Sheet" = Source{[Item="flight information",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"flight information_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Flight Number", type text}, {"Destination", type text}, {"Departure", type text}, {"Take-off Time", type datetime}, {"Landing Time", type datetime}, {"Estimated Flight Time", type datetime}, {"Number of Seats", Int64.Type}, {"Number of Passengers", Int64.Type}, {"Type of Plane", type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type", "Take-Off Date", each DateTime.Date([#"Take-off Time"])),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Custom",{"Flight Number", "Destination", "Departure", "Take-off Time", "Take-Off Date", "Landing Time", "Estimated Flight Time", "Number of Seats", "Number of Passengers", "Type of Plane"})
+				in
+				    #"Reordered Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

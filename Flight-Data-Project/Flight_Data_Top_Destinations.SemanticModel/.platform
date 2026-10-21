@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Flight_Data_Top_Destinations"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f6665693-36f1-4332-aebd-f28cbbe55481"
+  }
+}

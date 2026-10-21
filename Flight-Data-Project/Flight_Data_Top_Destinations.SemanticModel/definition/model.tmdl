@@ -1,0 +1,28 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["flight information","passenger information","skymile info - member info"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table 'flight information'
+ref table DateTableTemplate_f1168a37-bab6-46cc-b64d-e562c4450143
+ref table LocalDateTable_807f3fcc-2d73-42a2-aba9-80ad991e4e46
+ref table LocalDateTable_03b3c5c2-8752-4306-ab3c-3a5f101e01f8
+ref table LocalDateTable_cac038fd-25e3-411e-9325-03d130fe5dd3
+ref table 'passenger information'
+ref table 'skymile info - member info'
+ref table LocalDateTable_72c15906-b531-426a-b37a-809227e94491
+ref table Calendar
+ref table LocalDateTable_c9e05219-e083-4ca2-9219-751c527b1168
+
+ref cultureInfo en-US
+

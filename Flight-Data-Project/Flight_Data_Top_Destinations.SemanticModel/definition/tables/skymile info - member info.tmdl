@@ -1,0 +1,58 @@
+table 'skymile info - member info'
+	lineageTag: 4b12839f-ff61-4a83-a5e0-72f44c435b23
+
+	column 'Passenger Name'
+		dataType: string
+		lineageTag: f3e03795-67e5-44d6-9667-479bf5e79e13
+		summarizeBy: none
+		sourceColumn: Passenger Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SkyMiles Number (Member ID)'
+		dataType: int64
+		formatString: 0
+		lineageTag: 78379401-8d7b-40d7-9cd6-ae3dd154c0b2
+		summarizeBy: none
+		sourceColumn: SkyMiles Number (Member ID)
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SkyMiles Points'
+		dataType: int64
+		formatString: 0
+		lineageTag: e1fe9b36-9878-4cb2-87ba-981a2c2b79b5
+		summarizeBy: sum
+		sourceColumn: SkyMiles Points
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Member Since'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 10c84998-f9f7-4068-bd2a-7e61181e8ccf
+		summarizeBy: none
+		sourceColumn: Member Since
+
+		variation Variation
+			isDefault
+			relationship: b6652881-b484-4df3-bcaf-ba9ad3c9f77c
+			defaultHierarchy: LocalDateTable_72c15906-b531-426a-b37a-809227e94491.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition 'skymile info - member info' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\bmscu\OneDrive\Desktop\PowerBI_Projects\Flight_Data\flight_dataset.xlsx"), null, true),
+				    #"skymile info - member info_Sheet" = Source{[Item="skymile info - member info",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"skymile info - member info_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Passenger Name", type text}, {"SkyMiles Number (Member ID)", Int64.Type}, {"SkyMiles Points", Int64.Type}, {"Member Since", type date}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

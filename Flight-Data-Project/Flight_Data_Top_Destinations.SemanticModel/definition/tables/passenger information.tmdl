@@ -1,0 +1,66 @@
+table 'passenger information'
+	lineageTag: de20d8b7-01da-4056-9573-fe020bb7ee20
+
+	column 'Passenger Name'
+		dataType: string
+		lineageTag: 53cb2225-89b6-4bbc-b9a6-d6fbd1690cbd
+		summarizeBy: none
+		sourceColumn: Passenger Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Flight Number'
+		dataType: string
+		lineageTag: b5f91b48-1a92-460a-8250-97819f2e4ba6
+		summarizeBy: none
+		sourceColumn: Flight Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SkyMiles Number (Member ID)'
+		dataType: string
+		lineageTag: 26c9dd1e-4b97-4e7b-9a3b-f1f2754f9461
+		summarizeBy: none
+		sourceColumn: SkyMiles Number (Member ID)
+
+		annotation SummarizationSetBy = Automatic
+
+	column Destination
+		dataType: string
+		lineageTag: 7a8e1f3d-a7e6-4eaf-a8b7-edb0bda62963
+		summarizeBy: none
+		sourceColumn: Destination
+
+		annotation SummarizationSetBy = Automatic
+
+	column Departure
+		dataType: string
+		lineageTag: c44db6fe-6c68-429c-a132-98dce7418ed3
+		summarizeBy: none
+		sourceColumn: Departure
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Seat Number'
+		dataType: string
+		lineageTag: b34a761d-e253-4ad4-8ca2-e68387b0b339
+		summarizeBy: none
+		sourceColumn: Seat Number
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'passenger information' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\bmscu\OneDrive\Desktop\PowerBI_Projects\Flight_Data\flight_dataset.xlsx"), null, true),
+				    #"passenger information_Sheet" = Source{[Item="passenger information",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(#"passenger information_Sheet", [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Passenger Name", type text}, {"Flight Number", type text}, {"SkyMiles Number (Member ID)", type text}, {"Destination", type text}, {"Departure", type text}, {"Seat Number", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
